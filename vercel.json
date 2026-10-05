@@ -1,3 +1,6 @@
 {
-  "rewrites": [{ "source": "/r/:code", "destination": "/api/r?code=:code" }]
+  "rewrites": [
+    { "source": "/r/:code", "destination": "/api/r?code=:code" },
+    { "source": "/admin", "destination": "/index.html" }
+  ]
 }

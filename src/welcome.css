@@ -1,0 +1,138 @@
+/* Bienvenida pública nfc.com.ve */
+
+#root {
+  width: 100%;
+  max-width: none;
+  border-inline: none;
+  text-align: left;
+}
+
+.welcome {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  background:
+    radial-gradient(1000px 500px at 15% -10%, rgba(79, 140, 255, 0.25), transparent),
+    radial-gradient(900px 500px at 110% 110%, rgba(34, 160, 107, 0.2), transparent),
+    linear-gradient(160deg, #0b1020, #101726);
+  color: #dbe2ef;
+}
+
+.welcome-card {
+  width: 100%;
+  max-width: 520px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 22px;
+  padding: 44px 36px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+.welcome-logo {
+  line-height: 0;
+}
+
+.welcome h1 {
+  font-size: 40px;
+  letter-spacing: -1px;
+  color: #fff;
+  margin: 0;
+}
+
+.welcome-sub {
+  margin: 0;
+  font-size: 17px;
+  line-height: 150%;
+  color: #9fb0cc;
+}
+
+.welcome-steps {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  font-size: 15px;
+  color: #c7d2e5;
+}
+
+.welcome-steps li span {
+  margin-right: 10px;
+}
+
+.welcome-tarjeta {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(210, 168, 41, 0.4);
+  background: rgba(210, 168, 41, 0.1);
+  border-radius: 12px;
+  font-size: 14.5px;
+  color: #e8d9a0;
+}
+
+.wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #06301a;
+  font-weight: 700;
+  font-size: 16.5px;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+  transition: transform 0.08s ease, background 0.15s ease;
+}
+
+.wa-btn:hover {
+  background: #1fb957;
+  transform: translateY(-1px);
+}
+
+.wa-btn:active {
+  transform: translateY(0);
+}
+
+.welcome-footer {
+  margin-top: 14px;
+  width: 100%;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #67748f;
+}
+
+.welcome-footer a {
+  color: #67748f;
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.welcome-footer a:hover {
+  color: #9fb0cc;
+}
+
+@media (max-width: 480px) {
+  .welcome-card {
+    padding: 32px 22px 22px;
+  }
+
+  .welcome h1 {
+    font-size: 32px;
+  }
+}

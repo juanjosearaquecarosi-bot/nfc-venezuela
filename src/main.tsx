@@ -1,19 +1,12 @@
-import { StrictMode, Suspense, lazy } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 
-const Admin = lazy(() => import('./Admin.tsx'))
-const esAdmin = window.location.pathname.replace(/\/$/, '') === '/admin'
-
+// El panel de / y /admin es el mismo: login con ADMIN_PASSWORD (cookie firmada server-side).
+// Admin.tsx (Supabase Auth) queda en el repo por si se quiere restaurar esa variante.
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {esAdmin ? (
-      <Suspense fallback={null}>
-        <Admin />
-      </Suspense>
-    ) : (
-      <App />
-    )}
+    <App />
   </StrictMode>,
 )

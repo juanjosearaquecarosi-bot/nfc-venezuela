@@ -9,7 +9,14 @@ create table cards (
 );
 
 -- Sin políticas: nadie con la anon key puede leer/escribir. Solo la service key (servidor).
+-- EXCEPTO el panel /admin, que usa la anon key + Supabase Auth (rol authenticated):
 alter table cards enable row level security;
+
+create policy "Panel puede leer tarjetas" on cards
+  for select to authenticated using (true);
+
+create policy "Panel puede actualizar tarjetas" on cards
+  for update to authenticated using (true) with check (true);
 
 -- Las 24 calcomanías
 insert into cards (code)

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { createClient, type Session } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL as string,
-  import.meta.env.VITE_SUPABASE_ANON_KEY as string,
-)
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
+
+// Sin esto, createClient lanza excepción al cargar el módulo y /admin queda en blanco
+const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null
 
 type Card = {
   code: string
@@ -24,6 +25,10 @@ export default function Admin() {
   const [estado, setEstado] = useState<Record<string, string>>({})
 
   useEffect(() => {
+    if (!supabase) {
+      setCargando(false)
+      return
+    }
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session)
       setCargando(false)
@@ -33,7 +38,7 @@ export default function Admin() {
   }, [])
 
   useEffect(() => {
-    if (!session) return
+    if (!session || !supabase) return
     supabase
       .from('cards')
       .select('code,url,business,scans,last_scan')
@@ -46,6 +51,7 @@ export default function Admin() {
 
   const entrar = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!supabase) return
     setError('')
     const { error } = await supabase.auth.signInWithPassword({ email, password: clave })
     if (error) setError('Email o clave incorrectos')
@@ -55,6 +61,7 @@ export default function Admin() {
     setCards((cs) => cs.map((c) => (c.code === code ? { ...c, [campo]: valor } : c)))
 
   const guardar = async (c: Card) => {
+    if (!supabase) return
     const url = c.url?.trim() || null
     if (url && !/^https?:\/\//.test(url)) {
       setEstado((s) => ({ ...s, [c.code]: 'El link debe empezar con https://' }))
@@ -73,6 +80,16 @@ export default function Admin() {
   const caja = { maxWidth: 960, margin: '0 auto', padding: 16, textAlign: 'left' as const }
 
   if (cargando) return <div style={caja}>Cargando…</div>
+
+  if (!supabase) return (
+    <div style={caja}>
+      <h2>Panel NFC Venezuela</h2>
+      <p style={{ color: 'crimson' }}>
+        Faltan las variables de entorno <code>VITE_SUPABASE_URL</code> y <code>VITE_SUPABASE_ANON_KEY</code>{' '}
+        en Vercel. Agrégalas en Settings → Environment Variables y haz un nuevo deploy.
+      </p>
+    </div>
+  )
 
   if (!session)
     return (

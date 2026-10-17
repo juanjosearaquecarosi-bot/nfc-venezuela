@@ -10,6 +10,7 @@ export default async function handler(req: any, res: any) {
 
   try {
     const r = await fetch(`${base}?code=eq.${code}&select=url,scans`, { headers });
+    if (!r.ok) throw new Error(`supabase ${r.status}`); // NUEVO: un error de Supabase no es "sin activar"
     const [card] = await r.json();
 
     if (!card || !card.url) return res.redirect(302, `/?tarjeta=${code}`); // sin activar -> tu página
@@ -18,9 +19,10 @@ export default async function handler(req: any, res: any) {
       method: 'PATCH',
       headers,
       body: JSON.stringify({ scans: card.scans + 1, last_scan: new Date().toISOString() }),
-    });
+    }).catch(() => {}); // NUEVO: si el contador falla, igual redirige
     return res.redirect(302, card.url);
-  } catch {
+  } catch (e) {
+    console.error('[r]', code, e); // NUEVO: deja rastro en los logs de Vercel
     return res.redirect(302, '/');
   }
 }

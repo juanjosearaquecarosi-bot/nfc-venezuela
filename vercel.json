@@ -1,4 +1,7 @@
 {
+  "redirects": [
+    { "source": "/", "destination": "https://nfc.com.ve", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/r/:code", "destination": "/api/r?code=:code" },
     { "source": "/admin", "destination": "/index.html" }
